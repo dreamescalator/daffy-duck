@@ -119,10 +119,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'ship',
-    'south',
-    'qrcode',
-    'jquery'
+   # 'ship',
+   # 'south',
+   # 'qrcode',
+   # 'jquery'
 )
 
 # A sample logging configuration. The only tangible logging
