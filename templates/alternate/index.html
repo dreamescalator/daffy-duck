@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <link href="{{ STATIC_URL }}css/main.css" media="screen" rel="stylesheet"/>
+        <link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+          <script>
+                $(function() {
+                    $( "input[type=submit], a, button" )
+                    .button()
+                    .click(function( event ) {
+                        event.preventDefault();
+                    });
+                });
+            </script>
+    </head>
+    <title>Welcome to FedMex</title>
+    <body>
+         <div class="logins">
+                <a href="/ship/worker">Admin Login</a>
+            </div>
+        <div id="container">
+           
+            <div id="header">
+                <h1>FedMex Logistics</h1>
+            </div> <!--END HEADER-->
+            <div class="search-box">
+                <form>  
+                    <input id="search-bar" type="text" value="Enter Tracking number" name="search-bar" size="68" onfocus="javascript: if(this.value){this.value = ''; }" onblur="javascript: if(this.value==''){this.value='Enter Tracking number';}">
+                    <input type="submit" value="Package Search" style="font-size: 20px;">
+                </form>
+            </div>
+            <table class="results">
+                   <tr id="result-headers">
+                    <td class="h-cell">Tracking#</td>
+                    <td class="h-cell">Recipient</td>
+                    <td class="h-cell">Contents</td>
+                    <td class="h-cell">Destination</td>
+                    <td class="h-cell">Special Instructions</td>
+                </tr> 
+               
+                
+                {% if packages %}
+                {% for package in packages %}
+                <tr class="result-row">        
+                    <td class="cell" id="result-tracking-number">{{ package.package_tracking_number }}</td>
+                    <td class="cell" id="result-recipient">{{ package.package_recipient }}</td>
+                    <td class="cell" id="result-package-contents">{{ package.package_contents}}</td>
+                    <td class="cell" id="result-desitnation">{{ package.destination}}</td>
+                    <td class="cell" id="result-special-instructions">{{ package.special_insrtuctions}}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </table> <!--END RESULTS-->
+            
+        </div><!--END CONTAINER-->
+        <div class="footer">
+            {% now "Y" %} FedMex S.A. de C.V.
+        </div>
+    </body>
+</html>
+

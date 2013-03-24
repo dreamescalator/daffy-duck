@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <script src="{{ STATIC_URL }}/js/jquery-1.91.js"></script>
+        <script src="{{ STATIC_URL }}/js/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.js"></script>
+        <link href="{{ STATIC_URL }}css/worker.css" media="screen" rel="stylesheet"/>
+        <link href="{{ STATIC_URL }}/js/jquery-ui-1.10.0.custom/css/smoothness/jquery-ui-1.10.0.custom.css" media="screen" rel="stylesheet"/>
+        <link href='http://fonts.googleapis.com/css?family=Questrial' media="screen" rel="stylesheet"/>
+        <script src="{{ STATIC_URL }}js/JsBarcode/JsBarcode.all.min.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}js/JsBarcode/EAN_UPC.js" type="text/javascript"></script>
+    </head>
+    <title>FedMex: You are logged in as  Worker</title>
+    <body>
+         <div class="menu-items">
+            <a href="#"><div id="add-new-link" class="nav">Create New Recipient</div></a>
+            <a href="/ship/worker"><div id="cancel" class="nav">Cancel</div></a>
+            <a href="/ship/logout"><div id="logout" class="nav">Log Out</div></a>
+        </div>
+          <script type="text/javascript">
+                var divs = new Array();
+                var div_no = ['#add-new-link', '#cancel','#logout'];
+                divs['#add-new-link'] = {'colour_1':'#8CC63F','colour_2':'#0A803B' , 'text_colour':'white'};
+                divs['#cancel'] = {'colour_1':'#BF1E2D','colour_2':'#CCD1CD', 'text_colour':'white'};
+                divs['#logout'] = {'colour_1':'#F7941E','colour_2':'#CCD1CD', 'text_colour':'white'};
+                var colorize = function(div, color_1, color_2, text_color){
+                    var _in = function(){$(div).css({'background-color': color_1,'color':text_color, 'border':'1px solid #CCD1CD'});};
+                    var _out = function(){$(div).css({'background-color': color_2, 'color': text_color, 'border':'1px solid white'});};
+                    $(div).hover(_in, _out);       
+                };
+                
+                colorize(div_no[0], divs[div_no[0]].colour_1, divs[div_no[0]].colour_2, divs[div_no[0]].text_colour);
+                colorize(div_no[1], divs[div_no[1]].colour_1, divs[div_no[1]].colour_2, divs[div_no[1]].text_colour);
+                colorize(div_no[2], divs[div_no[2]].colour_1, divs[div_no[2]].colour_2, divs[div_no[2]].text_colour); 
+        </script>
+        <div id="container">
+            <div id="header">
+                <h1>FedMex: Worker View</h1>
+            </div> <!--END HEADER-->
+           <div id="pkg-details">
+            <script>
+                $tracking_number = $('#tracking_no').val('0123456789');
+            </script>
+            <form id="new-pkg-input">
+                <fieldset>
+                    <label>Tracking Number : </label><input id="tracking_no" type="text" size="40" name="pkg_tracking_number" value='0123456789'><br/>
+                    <label>Package Recipient : </label><input type="text" size="40" name="pkg_recipient"><br/>
+                    <label>Carrier : </label><input type="text" size="40" name="pkg_carrier"><br/>
+                    <label>Recipient : </label><select name="pkg_carrier" >
+                    {% if recipients %}
+                        {% for recipient in recipients %}
+                        <option>  {{ recipient.recip_first_name }} , {{ recipient.recip_last_name }} </option>
+                        {% endfor %}
+                    {% endif %}
+                    </select><br/>
+                    <label>Destination : </label><input type="text" size="40" name="pkg_destinaiton"><br/>
+                    <label>Package Contents : </label><input type="text" size="40" name="pkg_contents"><br/>
+                    <label>Special instructions : </label><input type="text" size="40" name="tracking_number"><br/>
+                    <input class="submit-btns" type="button" value="Make this Package" name="submit" style="font-size:30px;"/>
+                    <input class="submit-btns" type="button" value="Print Barcode" name="barcode-submit" style="font-size:30px;"/>
+                </fieldset>
+            </form>
+           </div>
+           <div id="barcode-output">
+                <div class="barcode-container">
+                    <img id="barcode">
+                </div>
+                <span id="barcode-span">0123456789</span>
+                
+           </div>
+           <script>
+            var make_barcode = function(){
+               options = {'format':'CODE128'};
+                $('#barcode').JsBarcode("Cowabunga!");  
+            };
+            make_barcode(); 
+           </script>
+            <script>
+                $(function() {
+                    var options = {'format':'EAN'};
+                    $( ".submit-btns" ).button().click(function( event ){
+                        event.preventDefault();
+                    }); 
+                }); 
+            </script>
+        </div><!--END CONTAINER-->
+        <div class="footer">
+            {% now "Y" %} FedMex S.A. de C.V.
+        </div>
+    </body>
+</html>
+
